@@ -1,7 +1,5 @@
 # atl-local-news
 
-Create an app that accomplishes the following:
-
 Whenever a user visits this site, the app scrapes stories from a news outlet and displays them for the user. On the back end, each scraped article is saved to the app's database. The app displays the following information:
 
 Headline - the title of the article
