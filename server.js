@@ -1,6 +1,8 @@
 // Dependencies
 const express = require("express");
 const mongojs = require("mongojs");
+const logger = require("morgan");
+const mongoose = require("mongoose");
 
 // Require axios and cheerio to make scraping possible
 const axios = require("axios");
