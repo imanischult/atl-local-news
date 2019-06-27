@@ -1,8 +1,9 @@
 // Dependencies
 const express = require("express");
-const mongojs = require("mongojs");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+
+const PORT = 3000;
 
 // Require axios and cheerio to make scraping possible
 const axios = require("axios");
@@ -11,14 +12,18 @@ const cheerio = require("cheerio");
 // Initialize Express
 const app = express();
 
-// Databse configurations
-const dbURL = "article";
-const collections = ["atlArticles"];
+// Configure middleware
 
-// Hook mongojs config to the db variable
-const db = mongojs(dbURL, collections);
-db.on("error", err => {
-  console.log("Database Error:" + err);
+// Use morgan logger for logging requests
+app.use(logger("dev")); // +++ What's "dev"?
+// Parse request body as JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+// +++++ require handlebars to display front end +++++
+
+// Connect to the Mongo DB
+mongoose.connect("atlArticlesdb://localhost/populateddb", {
+  useNewUrlParser: true
 });
 
 //Let's first get the scraped data using node and cheerio. We'll be scraping articles from AJC
@@ -63,6 +68,6 @@ axios.get("https://patch.com/georgia/atlanta").then(response => {
 });
 
 // Listen on port 3000
-app.listen(3000, function() {
-  console.log("App running on port 3000!");
+app.listen(PORT, function() {
+  console.log("App running on port " + PORT);
 });
