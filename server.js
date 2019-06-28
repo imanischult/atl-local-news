@@ -22,50 +22,68 @@ app.use(express.json());
 // +++++ require handlebars to display front end +++++
 
 // Connect to the Mongo DB
-mongoose.connect("atlArticlesdb://localhost/populateddb", {
+mongoose.connect("mongodb://localhost/atlArticlesdb", {
   useNewUrlParser: true
 });
 
-//Let's first get the scraped data using node and cheerio. We'll be scraping articles from AJC
+// Routes
 
-axios.get("https://patch.com/georgia/atlanta").then(response => {
+// app.get("/scrape", function(req, res) {
+axios.get("https://patch.com/georgia/atlanta").then(function(response) {
+  console.log(response.data);
   const $ = cheerio.load(response.data);
   //For each element with an li tag and a class of "tease"...
-  const titleArr = [];
+
   $("section.px-3.px-sm-4.d-flex.flex-row").each(function(index, element) {
     //find the following data (saved in a variable)
-    let title = $(element)
+    const results = {};
+
+    results.title = $(this)
       .find("h2")
       .find("a")
       .attr("title");
 
-    let descr = $(element)
+    results.descr = $(this)
       .find("p")
       .text()
       .trim()
       .split("By ");
 
-    let link = $(element)
+    results.link = $(this)
       .find("h2")
       .find("a")
       .attr("href");
 
-    let img = $(element)
+    results.author = $(this)
       .find("section.d-none.d-sm-block")
       .find("p.m-0.text-xs.badge-spacing")
       .find("span")
       .text()
       .split(",");
 
-    titleArr.push({
-      title: title,
-      description: descr[0],
-      link: link,
-      image: img
-    });
+    results.time = $(this)
+      .find("h6")
+      .find("time")
+      .attr("datetime")
+      .split(" ");
+
+    // Create a new article using the "result" object built from scraping
+    db.Article.create(result)
+      .then(function(dbArticle) {
+        // View the added result in the console
+        console.log(dbArticle);
+      })
+      .catch(function(err) {
+        // If an error occurred, log it
+        console.log(err);
+      });
   });
-  console.log(titleArr);
+
+  // Send a message to the client
+  res.send("Scrape Complete");
+  // console.log(results);
 });
+// });
 
 // Listen on port 3000
 app.listen(PORT, function() {
