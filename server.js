@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 
 const PORT = 3000;
 
+// Require all models
+const db = require("./models");
+
 // Require axios and cheerio to make scraping possible
 const axios = require("axios");
 const cheerio = require("cheerio");
@@ -43,7 +46,7 @@ axios.get("https://patch.com/georgia/atlanta").then(function(response) {
       .find("a")
       .attr("title");
 
-    results.descr = $(this)
+    results.description = $(this)
       .find("p")
       .text()
       .trim()

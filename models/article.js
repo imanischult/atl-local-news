@@ -8,10 +8,6 @@ const ArticleSchema = new Schema({
     type: String,
     required: true
   },
-  author: {
-    type: String,
-    required: true
-  },
   description: {
     type: String,
     required: true
@@ -20,16 +16,17 @@ const ArticleSchema = new Schema({
     type: String,
     required: true
   },
-  date: {
-    type: Date,
-    default: String
+  author: {
+    type: String,
+    required: true
   },
+  time: String,
   // `note` is an object that stores a Note id
   // The ref property links the ObjectID to the Note model
   // This allows us to populate the Article with an associated Note
   note: {
     type: Schema.Types.ObjectId,
-    ref: "notes"
+    ref: "note"
   }
 });
 
