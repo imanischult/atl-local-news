@@ -104,8 +104,10 @@ const PORT = process.env.PORT || 3000;
 // Set up an express router
 const router = express.Router();
 
+require("./config/routes")(router);
+
 // If deployed, use the deployed database. Otherwise, use the local datase
-const db = process.env.MONGODB_URR || "mongodb://localhost/atlArticles";
+const db = process.env.MONGODB_URI || "mongodb://localhost/atlArticles";
 
 // Connect mongoose to the db
 mongoose.connect(db, function(error) {
@@ -131,7 +133,7 @@ app.engine(
   })
 );
 
-app.set("view engine", "handelbars");
+app.set("view engine", "handlebars");
 
 // Every request goes through router middleware
 app.use(router);
