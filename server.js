@@ -119,7 +119,7 @@ app.use(
     extended: false
   })
 );
-
+//extended
 // Set up app to use handlebars
 app.engine(
   "handlebars",

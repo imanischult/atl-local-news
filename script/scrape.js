@@ -8,7 +8,7 @@ const scrape = function(cb) {
 
     $("section.px-3.px-sm-4.d-flex.flex-row").each(function(index, element) {
       //find the following data (saved in a variable)
-      //   const results = {};
+      const results = {};
 
       const title = (results.title = $(this)
         .find("h2")
