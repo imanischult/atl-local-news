@@ -14,7 +14,7 @@ module.exports = function(router) {
   router.get("/saved", function(req, res) {
     res.render("savedarticles");
   });
-  // This route renders the api for new articles
+  // This route renders a page that lets you know if there are any new articles
   router.get("/api/fetch", function(req, res) {
     articlesController.fetch(function(err, docs) {
       if (!docs || docs.insertedCount === 0) {
@@ -28,5 +28,15 @@ module.exports = function(router) {
       }
     });
   });
-  // This route renders the api for notes
+  // This route renders the all article headlines
+  router.get("/api/articles", function(req, res) {
+    let query = {};
+    if (req.query.saved) {
+      query = req.query;
+    } else {
+      articlesController.get(query, function(data) {
+        res.json(data);
+      });
+    }
+  });
 };

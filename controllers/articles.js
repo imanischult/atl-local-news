@@ -21,7 +21,7 @@ module.exports = {
     Article.remove(query, cb);
   },
   get: function(query, cb) {
-    Artcicle.find(query)
+    Article.find(query)
       .sort({
         _id: -1
       })
