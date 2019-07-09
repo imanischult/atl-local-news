@@ -39,4 +39,37 @@ module.exports = function(router) {
       });
     }
   });
+  // This route allows the user to delete
+  router.delete("api/articles/:id", function(req, res) {
+    let query = {};
+    query._id = req.params.id;
+    articlesController.delete(query, function(err, data) {
+      res.json(data);
+    });
+  });
+  // This routes pulls the api for the user notes
+  router.get("/api/notes/articles_id?", function(req, res) {
+    let query = {};
+    if (req.params.article_id) {
+      query._id = req.params.article_id;
+    }
+
+    notesController.get(query, function(err, data) {
+      res.json(data);
+    });
+  });
+
+  router.delete("/api/notes/:id", function(err, data) {
+    let query = {};
+    query._id = req.params.id;
+    notesController.delete(query, function(err, data) {
+      res.json(data);
+    });
+  });
+
+  router.post("/api/notes", function(req, res) {
+    notesController.save(req.body, function(data) {
+      res.json(data);
+    });
+  });
 };
